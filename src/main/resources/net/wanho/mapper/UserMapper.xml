@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--命名空间指向对应的接口-->
+<mapper namespace="net.wanho.mapper.UserMapper">
+
+    <!--
+    id 对应接口中的方法名
+    parameterType 参数类型
+    -->
+    <insert id="addUser" parameterType="User">
+
+        INSERT INTO user VALUES(NULL,#{username},#{password})
+
+    </insert>
+
+    <insert id="addUserReturnKey" useGeneratedKeys="true" keyProperty="is">
+        INSERT INTO user VALUES(NULL,#{username},#{password})
+    </insert>
+
+    <insert id="addUserReturnKey2">
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT last_insert_id()
+        </selectKey>
+
+        INSERT INTO user VALUES(NULL,#{username},#{password})
+
+    </insert>
+
+    <delete id="deleteUser" parameterType="Integer">
+
+        DELETE FROM `user` WHERE id = #{id}
+
+    </delete>
+
+    <select id="getAllUsers" resultType="net.wanho.pojo.User">
+
+        SELECT * FROM user
+
+    </select>
+
+    <select id="getUserById" resultType="net.wanho.pojo.User">
+
+        SELECT * FROM user WHERE id = #{id}
+
+    </select>
+
+    <!--SELECT * FROM user WHERE name LIKE "%#{name}%"-->
+    <select id="getUserByName" resultType="net.wanho.pojo.User" parameterType="string">
+
+        SELECT * FROM user WHERE name LIKE #{a}
+
+    </select>
+
+    <update id="updateUser">
+
+        UPDATE user SET username=#{username} WHERE id=#{id}
+
+    </update>
+    <update id="updateUserById">
+
+        UPDATE user SET username=#{username},password=#{password} WHERE id=#{id}
+
+    </update>
+
+
+</mapper>
